@@ -29,5 +29,5 @@ deno run  -A supabase/functions/_scripts/sync-stripe.ts
 # Deploy Functions
 
 ```
-supabase functions deploy --import-map supabase/functions/deno.json
+supabase functions deploy --import-map functions/deno.json
 ```
