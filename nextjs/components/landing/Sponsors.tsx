@@ -1,57 +1,86 @@
 'use client';
-import { Radar } from 'lucide-react';
-
-import type { JSX } from "react";
+import useEmblaCarousel from 'embla-carousel-react';
+import { useEffect } from 'react';
+import Autoplay from 'embla-carousel-autoplay';
 
 interface SponsorProps {
-  icon: JSX.Element;
+  image: string;
   name: string;
 }
 
 const sponsors: SponsorProps[] = [
   {
-    icon: <Radar size={34} />,
-    name: 'Sponsor 1'
+    image: '/landing/bundestag.jpeg',
+    name: 'Bundestag'
   },
   {
-    icon: <Radar size={34} />,
-    name: 'Sponsor 2'
+    image: '/landing/eu.jpeg',
+    name: 'European Union'
   },
   {
-    icon: <Radar size={34} />,
-    name: 'Sponsor 3'
+    image: '/landing/berlin.png',
+    name: 'Berlin'
   },
   {
-    icon: <Radar size={34} />,
-    name: 'Sponsor 4'
+    image: '/landing/hochshule.png',
+    name: 'Hochschule'
   },
   {
-    icon: <Radar size={34} />,
-    name: 'Sponsor 5'
+    image: '/landing/sib.png',
+    name: 'SIB'
   },
   {
-    icon: <Radar size={34} />,
-    name: 'Sponsor 6'
+    image: '/landing/exist.jpeg',
+    name: 'Exist'
+  },
+  {
+    image: '/landing/she-they.png',
+    name: 'She They'
   }
 ];
 
 export const Sponsors = () => {
+  const [emblaRef] = useEmblaCarousel(
+    {
+      loop: true,
+      align: 'center',
+      containScroll: false,
+      dragFree: true
+    },
+    [
+      Autoplay({
+        delay: 3000,
+        stopOnInteraction: false,
+        stopOnMouseEnter: true
+      })
+    ]
+  );
+
   return (
-    <section id="sponsors" className="container pt-24 sm:py-32">
-      <h2 className="text-center text-md lg:text-xl font-bold mb-8 text-primary">
-        Investors and founders
+    <section id="sponsors" className="container py-24 sm:py-32">
+      <h2 className="text-center text-3xl md:text-4xl font-bold mb-16">
+        Our{' '}
+        <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
+          Partners
+        </span>{' '}
+        and Supporters
       </h2>
 
-      <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8">
-        {sponsors.map(({ icon, name }: SponsorProps) => (
-          <div
-            key={name}
-            className="flex items-center gap-1 text-muted-foreground/60"
-          >
-            <span>{icon}</span>
-            <h3 className="text-xl  font-bold">{name}</h3>
-          </div>
-        ))}
+      <div className="w-full overflow-hidden px-4 md:px-8" ref={emblaRef}>
+        <div className="flex gap-16 md:gap-24">
+          {sponsors.map(({ image, name }) => (
+            <div
+              key={name}
+              className="flex-[0_0_120px] md:flex-[0_0_160px] h-[50px] relative"
+            >
+              <img
+                src={image}
+                alt={name}
+                className="w-full h-full object-contain opacity-80 hover:opacity-100 transition-opacity"
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

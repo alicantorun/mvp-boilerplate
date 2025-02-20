@@ -5,9 +5,9 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import { MagnifierIcon, WalletIcon, ChartIcon } from './Icons';
+import { Star, UserCheck } from 'lucide-react';
 
-import type { JSX } from "react";
+import type { JSX } from 'react';
 
 interface ServiceProps {
   title: string;
@@ -17,22 +17,15 @@ interface ServiceProps {
 
 const serviceList: ServiceProps[] = [
   {
-    title: 'Code Collaboration',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
-    icon: <ChartIcon />
+    title: 'Screened professionals',
+    description: 'We work with background-checked, certified professionals.',
+    icon: <UserCheck className="w-6 h-6 text-primary" />
   },
   {
-    title: 'Project Management',
+    title: 'Satisfaction pledge',
     description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
-    icon: <WalletIcon />
-  },
-  {
-    title: 'Task Automation',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
-    icon: <MagnifierIcon />
+      'Our customer service team is always there to help if anything goes wrong.',
+    icon: <Star className="w-6 h-6 text-primary" />
   }
 ];
 
@@ -43,17 +36,12 @@ export const Services = () => {
         <div>
           <h2 className="text-3xl md:text-4xl font-bold">
             <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
-              Client-Centric{' '}
+              Guarantee your{' '}
             </span>
-            Services
+            satisfaction
           </h2>
 
-          <p className="text-muted-foreground text-xl mt-4 mb-8 ">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis
-            dolor.
-          </p>
-
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-8 mt-8">
             {serviceList.map(({ icon, title, description }: ServiceProps) => (
               <Card key={title}>
                 <CardHeader className="space-y-1 flex md:flex-row justify-start items-start gap-4">
@@ -73,9 +61,9 @@ export const Services = () => {
         </div>
 
         <img
-          src="/landing/cube-leg.png"
+          src="/landing/happy-customer.jpeg"
           className="w-[300px] md:w-[500px] lg:w-[600px] object-contain"
-          alt="About services"
+          alt="Happy customer"
         />
       </div>
     </section>

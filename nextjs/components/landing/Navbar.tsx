@@ -31,7 +31,7 @@ interface RouteProps {
 
 const routeList: RouteProps[] = [
   {
-    href: '/#how-it-works',
+    href: '/#howItWorks',
     label: 'How it works'
   },
   {

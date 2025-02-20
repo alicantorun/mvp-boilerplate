@@ -1,105 +1,127 @@
 'use client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import useEmblaCarousel from 'embla-carousel-react';
+import { Quote } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
 
 interface TestimonialProps {
   image: string;
   name: string;
-  userName: string;
   comment: string;
 }
 
 const testimonials: TestimonialProps[] = [
   {
-    image: 'https://github.com/shadcn.png',
-    name: 'John Doe React',
-    userName: '@john_Doe',
-    comment: 'This landing page is awesome!'
+    image: '/landing/testimonials/sayfullo.jpeg',
+    name: 'Sayfullo',
+    comment:
+      'The handyman was very eager to help me and gave clear instructions. I felt well-guided and understood the problem at hand better.'
   },
   {
-    image: 'https://github.com/shadcn.png',
-    name: 'John Doe React',
-    userName: '@john_Doe1',
+    image: '/landing/testimonials/daniel.jpeg',
+    name: 'Daniel',
     comment:
-      'Lorem ipsum dolor sit amet,empor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.'
-  },
-
-  {
-    image: 'https://github.com/shadcn.png',
-    name: 'John Doe React',
-    userName: '@john_Doe2',
-    comment:
-      'Lorem ipsum dolor sit amet,exercitation. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.'
+      'It was a very helpful call. The plumber was quite knowledgeable, and the Fixit team was quite supportive of arranging the call as well as sharing follow-up information!'
   },
   {
-    image: 'https://github.com/shadcn.png',
-    name: 'John Doe React',
-    userName: '@john_Doe3',
+    image: '/landing/testimonials/pisitta.jpeg',
+    name: 'Pisitta',
     comment:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'
-  },
-  {
-    image: 'https://github.com/shadcn.png',
-    name: 'John Doe React',
-    userName: '@john_Doe4',
-    comment:
-      'Lorem ipsum dolor sit amet, tempor incididunt  aliqua. Ut enim ad minim veniam, quis nostrud.'
-  },
-  {
-    image: 'https://github.com/shadcn.png',
-    name: 'John Doe React',
-    userName: '@john_Doe5',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+      "I'm so happy with the results!! My handyman communicated very well and was very assuring - very important traits for this task 🙂"
   }
 ];
 
 export const Testimonials = () => {
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: 'center',
+    loop: false,
+    containScroll: 'trimSnaps',
+    dragFree: false
+  });
+
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
+
+  const scrollTo = useCallback(
+    (index: number) => {
+      if (emblaApi) {
+        emblaApi.scrollTo(index);
+      }
+    },
+    [emblaApi]
+  );
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    setScrollSnaps(emblaApi.scrollSnapList());
+    emblaApi.on('select', onSelect);
+    return () => {
+      emblaApi.off('select', onSelect);
+    };
+  }, [emblaApi, onSelect]);
+
   return (
     <section id="testimonials" className="container py-24 sm:py-32">
-      <h2 className="text-3xl md:text-4xl font-bold">
-        Discover Why
-        <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
-          {' '}
-          People Love{' '}
-        </span>
-        This Landing Page
-      </h2>
+      <div className="text-center mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold">
+          What our customers{' '}
+          <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
+            say about us
+          </span>
+        </h2>
+      </div>
 
-      <p className="text-xl text-muted-foreground pt-4 pb-8">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non unde error
-        facere hic reiciendis illo
-      </p>
+      <div className="max-w-4xl mx-auto px-4 md:px-8">
+        <div className="overflow-hidden px-4 md:px-8" ref={emblaRef}>
+          <div className="flex gap-6 md:gap-8 cursor-grab active:cursor-grabbing">
+            {testimonials.map(({ image, name, comment }, index) => (
+              <Card
+                key={name}
+                className={`flex-[0_0_100%] md:flex-[0_0_60%] min-h-[200px] transition-all duration-300 ${
+                  selectedIndex === index
+                    ? 'opacity-100 scale-100'
+                    : 'opacity-40 scale-95'
+                }`}
+              >
+                <CardHeader className="pb-4">
+                  <div className="flex items-center gap-4">
+                    <Avatar className="h-12 w-12">
+                      <AvatarImage src={image} alt={name} />
+                      <AvatarFallback>{name[0]}</AvatarFallback>
+                    </Avatar>
+                    <CardTitle className="text-lg">{name}</CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-4 border-t">
+                  <div className="flex gap-2">
+                    <Quote className="h-4 w-4 text-primary shrink-0" />
+                    <p className="text-muted-foreground">{comment}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 sm:block columns-2  lg:columns-3 lg:gap-6 mx-auto space-y-4 lg:space-y-6">
-        {testimonials.map(
-          ({ image, name, userName, comment }: TestimonialProps) => (
-            <Card
-              key={userName}
-              className="max-w-md md:break-inside-avoid overflow-hidden"
-            >
-              <CardHeader className="flex flex-row items-center gap-4 pb-2">
-                <Avatar>
-                  <AvatarImage alt="" src={image} />
-                  <AvatarFallback>OM</AvatarFallback>
-                </Avatar>
-
-                <div className="flex flex-col">
-                  <CardTitle className="text-lg">{name}</CardTitle>
-                  <CardDescription>{userName}</CardDescription>
-                </div>
-              </CardHeader>
-
-              <CardContent>{comment}</CardContent>
-            </Card>
-          )
-        )}
+        <div className="flex justify-center gap-2 mt-6">
+          {scrollSnaps.map((_, index) => (
+            <button
+              key={index}
+              className={`w-2 h-2 rounded-full transition-colors ${
+                index === selectedIndex ? 'bg-primary' : 'bg-primary/20'
+              }`}
+              onClick={() => scrollTo(index)}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
