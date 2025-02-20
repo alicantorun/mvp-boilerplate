@@ -17,7 +17,7 @@ import {
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
 import { ModeToggle } from './mode-toggle';
-import { LogoIcon } from './Icons';
+import Image from 'next/image';
 import { User } from '@supabase/supabase-js';
 import { createApiClient } from '@/utils/supabase/api';
 import { createClient } from '@/utils/supabase/client';
@@ -31,20 +31,16 @@ interface RouteProps {
 
 const routeList: RouteProps[] = [
   {
-    href: '/#features',
-    label: 'Features'
+    href: '/#how-it-works',
+    label: 'How it works'
   },
   {
-    href: '/#testimonials',
-    label: 'Testimonials'
+    href: '/contact',
+    label: 'Contact us'
   },
   {
-    href: '/#pricing',
-    label: 'Pricing'
-  },
-  {
-    href: '/#faq',
-    label: 'FAQ'
+    href: '/about-us',
+    label: 'About'
   }
 ];
 
@@ -67,10 +63,9 @@ export const Navbar = ({ user }: { user: User | null }) => {
             <a
               rel="noreferrer noopener"
               href="/"
-              className="ml-2 font-bold text-xl flex"
+              className="ml-2 font-bold text-xl flex items-center gap-2"
             >
-              <LogoIcon />
-              ShadcnUI/React
+              <Image src="/fixit.svg" alt="Fixit Logo" width={64} height={64} />
             </a>
           </NavigationMenuItem>
 

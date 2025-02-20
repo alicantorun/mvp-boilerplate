@@ -8,9 +8,8 @@ import dynamic from 'next/dynamic';
 import { Toaster } from '@/components/ui/toaster';
 import PostHogPageViewWrapper from '@/components/misc/PostHogPageViewWrapper';
 
-
 const meta = {
-  title: 'Next.js Subscription Starter',
+  title: 'Household repairs with Fixit',
   description: 'Brought to you by Vercel, Stripe, and Supabase.',
   cardImage: '/og.png',
   robots: 'follow, index',
